@@ -4,10 +4,7 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Calculate n first pricipal components and apply log-transform to the matrix if specified; create scPred object 
-
-# args: 
-# - training matrix; training labels; number of pr comps; random seed; log-transform 
+# Calculate n first pricipal components and apply log-transform to the matrix if specified; initialise scPred object 
 
 option_list = list(
     make_option(

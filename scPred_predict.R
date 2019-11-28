@@ -18,7 +18,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the input object for prediction matrix in .mtx format'
+        help = 'Path to the input object for prediction matrix in .rds format'
   ),
     make_option(
         c("-s", "--test-labels"), 
@@ -74,7 +74,8 @@ pred_data = readRDS(opt$pred_data)
 
 scp = scPredict(scp, newData = as.matrix(pred_data), threshold = opt$threshold_level)
 predictions = getPredictions(scp)
-write.table(predictions, file=opt$output_path)
+cat(dim(predictions))
+write.csv(predictions, file=opt$output_path, row.names = TRUE, col.names = TRUE)
 
 # if test labels supplied, run the performance evaluation block 
 if(!is.na(opt$test_labels)){

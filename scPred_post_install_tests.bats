@@ -94,7 +94,7 @@
     
 }
 
-@test "obtain pridictions using trained model" {
+@test "obtain predictions using trained model" {
     if [ "$use_existing_outputs" = 'true' ] && [ -f "$predictions_output" ]; then
         skip "$predictions_output exists and use_existing_outputs is set to 'true'"
     fi
@@ -115,7 +115,4 @@
     [ "$status" -eq 0 ]
     [ -f  "$scPred_trained" ]
 }
-
-
-
 
