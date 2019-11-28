@@ -4,6 +4,9 @@ Command-line interface for the [scPred](https://github.com/IMB-Computational-Gen
 ### Installation 
 
 
+To run post-install tests, enter the following command: `scPred_post_install_tests.sh 'test'` 
+
+
 ### Commands 
 A full set of parameters and their description can be obtained by running `<command>.R --help`. 
 
