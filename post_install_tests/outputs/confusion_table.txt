@@ -1,0 +1,6 @@
+"blood"	"dermal"	"neural"	"pluripotent"
+"blood"	0.97	0	0	0
+"dermal"	0	0.97	0	0
+"neural"	0	0	1	0
+"pluripotent"	0	0	0	0.43
+"unassigned"	0.03	0.03	0	0.57
