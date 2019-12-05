@@ -26,7 +26,7 @@ before_install:
 
 install:
     - export PATH="$HOME/miniconda/bin:$PATH";
-    - conda activate test-environment
+    - source activate test-environment
 
 before_script:
     - export PATH=`pwd`:$PATH
