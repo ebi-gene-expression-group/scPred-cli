@@ -4,7 +4,7 @@ Command-line interface for the [scPred](https://github.com/IMB-Computational-Gen
 ### Installation 
 
 
-To run post-install tests, enter the following command: `scPred_post_install_tests.sh 'test'` 
+To run post-install tests, enter the following command: `scpred_post_install_tests.sh 'test'` 
 
 
 ### Commands 
@@ -13,7 +13,7 @@ A full set of parameters and their description can be obtained by running `<comm
 #### Train/test split 
 Split the expression matrix into training and testing datasets.
 ```
-scPred_train_test_split.R\
+scpred_train_test_split.R\
           --input-sce-object <path to the input object of SingleCellExperiment class in .rds format>\
           --training-matrix <output path for training matrix>\
           --test-matrix <output path for testing matrix>\
@@ -25,7 +25,7 @@ scPred_train_test_split.R\
 #### Eigenvalue decomposition of training matrix
 Calculate n first principal components from the data matrix and build an object of scPred class.
 ```
-scPred_eigen_decomp.R\
+scpred_eigen_decomp.R\
           --training-matrix <path to the training matrix in .rds format>\
           --log-transform <should log-transform be performed on the matrix data? Default: TRUE>\
           --training-labels <path to the training labels (metadata) in text format>\
@@ -35,7 +35,7 @@ scPred_eigen_decomp.R\
 #### Feature selection 
 Get representative features from the set of principal components.
 ```
-scPred_get_feature_space.R\
+scpred_get_feature_space.R\
           --input-object <path to the input object of scPred or seurat class in .rds format>\
           --prediction-column <name of the metadata column that contains training labels>\
           --output-path <path for the modified scPred object in .rds format>\
@@ -45,7 +45,7 @@ scPred_get_feature_space.R\
 #### Train the model 
 Use principal component-projected data to train a specified classification model.
 ```
-scPred_train_model.R\
+scpred_train_model.R\
           --input-object <path to the input object of scPred of seurat class in .rds format>\
           --model <model type used for training. Must be one of the models supported by Caret package. Default: svmRadial>\
           --output-path <path for the output scPred object in .rds format>\
@@ -55,7 +55,7 @@ scPred_train_model.R\
 #### Obtain predictions 
 Use the trained model either to predict cell types for unseen data or evaluate performance on test data.
 ```
-scPred_predict.R\
+scpred_predict.R\
           --input-object <path to the input object of scPred or seurat class in .rds format>\
           --pred-data <path to the input object for prediction matrix in .rds format>\
           --test-labels <optional: path to the test labels for evalutation of model performance>\

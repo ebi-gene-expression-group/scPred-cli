@@ -20,7 +20,7 @@
         skip "$train_matrix exists and use_existing_outputs is set to 'true'"
     fi
     run rm -f $train_matrix $test_matrix $train_metadata $test_metadata\
-    && scPred_train_test_split.R\
+    && scpred_train_test_split.R\
                         --input-sce-object $test_sce\
                         --training-matrix $train_matrix\
                         --test-matrix $test_matrix\
@@ -41,7 +41,7 @@
         skip "$scPred_object exists and use_existing_outputs is set to 'true'"
     fi
     
-    run rm -f $scPred_object && scPred_eigen_decomp.R\
+    run rm -f $scPred_object && scpred_eigen_decomp.R\
                                     --training-matrix $train_matrix\
                                     --log-transform $log_trainsform\
                                     --training-labels $train_metadata\
@@ -61,7 +61,7 @@
     fi
 
     run rm -f $scPred_feat_space $eigenvalue_plot &&\
-                                 scPred_get_feature_space.R\
+                                 scpred_get_feature_space.R\
                                         --input-object $scPred_object\
                                         --prediction-column $cell_types_column\
                                         --explained-var-limit $explained_var_limit\
@@ -81,7 +81,7 @@
     fi
 
     run rm -f $scPred_trained $training_results $train_probs_plot &&\
-                               scPred_train_model.R\
+                               scpred_train_model.R\
                                     --input-object $scPred_feat_space\
                                     --output-path $scPred_trained\
                                     --train-probs-plot $train_probs_plot
@@ -100,7 +100,7 @@
     fi
 
     run rm -f $predictions_output $predict_probs_plot $confusion_table &&\
-                            scPred_predict.R\
+                            scpred_predict.R\
                                     --input-object $scPred_trained\
                                     --pred-data $test_matrix\
                                     --test-labels $test_metadata\
