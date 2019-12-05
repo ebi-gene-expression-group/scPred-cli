@@ -1,11 +1,13 @@
 #!/usr/bin/env Rscript
 
-# Split the dataset into train/test  
+
 suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(caret))
 suppressPackageStartupMessages(require(SingleCellExperiment))
-suppressPackageStartupMessages(require(Matrix))
+
+### Split the dataset into train/test
+### training/test labels need to be supplied in ColData slot of SCE object   
 
 # argument parsing 
 option_list = list(
@@ -77,14 +79,16 @@ opt = wsc_parse_args(option_list, mandatory = c("input_sce_object",
                                                 "training_labels",
                                                 "cell_types_column",
                                                 "test_labels"))
-# main 
+
 set.seed(opt$random_seed)
 print(opt$input_sce_object)
+# preprocess data from SCE object 
 sce_object = readRDS(opt$input_sce_object)
-sce_counts = normcounts(sce_object)
+sce_counts = as.matrix(normcounts(sce_object))
 sce_counts_cpm = apply(sce_counts, 2, function(x) (x/sum(x))*1000000)
 sce_metadata = as.data.frame(colData(sce_object))
 
+# run data partitioning 
 i = createDataPartition(sce_metadata[, opt$cell_types_column], p = opt$training_ratio, list = FALSE)
 train_data =  sce_counts_cpm[, i]
 train_labels = sce_metadata[i, , drop = FALSE]

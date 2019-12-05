@@ -31,7 +31,7 @@ install:
 before_script:
     - export PATH=`pwd`:$PATH
 
-script: ./scPred_post_install_tests.sh
+script: ./scpred_post_install_tests.sh
 
 cache:
   directories:

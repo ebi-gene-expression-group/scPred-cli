@@ -4,7 +4,7 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Get representative features from principal components 
+# Select principal components that will be used as features for training the model
 option_list = list(
     make_option(
         c("-i", "--input-object"), 
@@ -68,7 +68,7 @@ scp = getFeatureSpace(scp,
                       sig = opt$significance_threshold)
 
 saveRDS(scp, opt$output_path)
-
+# if plot path supplied, produce eigenvalue plots 
 if(!is.na(opt$eigenvalue_plot_path)){
     png(opt$eigenvalue_plot_path)
     print(plotEigen(scp, group = opt$prediction_column))
