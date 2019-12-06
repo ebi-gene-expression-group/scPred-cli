@@ -1,14 +1,11 @@
-# scpred-cli
+# scPred-cli
 Command-line interface for the [scPred](https://github.com/IMB-Computational-Genomics-Lab/scPred) cell type classifaction package.
 
 ### Installation 
-scpred-cli is installable through [conda](https://conda.io/projects/conda/en/latest/index.html). To avoid dependency issues, it is recommended to run the library from a separate environment. Issue the following commands:
-```
-conda create --name <env_name> 
-conda activate <env_name>
-conda install -c bioconda scpred-cli
-```
-To run post-install tests, enter the following: `scpred_post_install_tests.sh 'test'` 
+
+
+To run post-install tests, enter the following command: `scpred_post_install_tests.sh 'test'` 
+
 
 ### Commands 
 A full set of parameters and their description can be obtained by running `<command>.R --help`. 

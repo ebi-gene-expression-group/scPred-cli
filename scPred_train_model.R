@@ -4,7 +4,7 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Use principal component-projected data and selected features to train a specified classification model
+# Use pr.comp-projected data to train a specified classification model
 
 option_list = list(
     make_option(
@@ -12,7 +12,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the input object of scPred or seurat class in .rds format'
+        help = 'Path to the input object of scPred of seurat class in .rds format'
   ),
     make_option(
         c("-m", "--model"), 
@@ -75,20 +75,18 @@ option_list = list(
 
 opt = wsc_parse_args(option_list, mandatory = c("input_object", "output_path"))
 scp = readRDS(opt$input_object)
-# model training step 
 scp = trainModel(scp, 
                  seed = opt$random_seed, 
                  model = opt$model,
                  resampleMethod = opt$resample_method, 
                  number = opt$iter_num, 
                  allowParallel = opt$allow_parallel)
-# obtain training results 
+
 if(!is.na(opt$training_results)){
     res = getTrainResults(scp)
     saveRDS(res, opt$training_results)
 }
 
-# plot class probs
 if(!is.na(opt$train_probs_plot)){
     png(opt$train_probs_plot)
     print(plotTrainProbs(scp))
