@@ -10,7 +10,6 @@ conda install -c bioconda scpred-cli
 ```
 To run post-install tests, enter the following: `scpred_post_install_tests.sh 'test'` 
 
-
 ### Commands 
 A full set of parameters and their description can be obtained by running `<command>.R --help`. 
 
@@ -25,6 +24,16 @@ scpred_train_test_split.R\
           --test-labels <output path for test labels>\
           --cell-types-column <column name for assigned cell types in the metadata slot of SCE object>
 ```
+
+#### Pre-process data 
+Extract matrix data and/or training labels from SingleCellExperiment object. Run in case no train/test splitting is required and the model is trained to obtain predictions for new data.
+```
+scpred_preprocess_data.R\
+          --input-sce-object <Path to the input SCE object in .rds format>\
+          --output-matrix-object <Path to the output matrix object in .rds format>\
+          --output-labels <Optional: path to the metadata file with cell type labels in text format>
+```
+
 
 #### Eigenvalue decomposition of training matrix
 Calculate n first principal components from the data matrix and build an object of scPred class.
