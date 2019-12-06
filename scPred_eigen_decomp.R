@@ -4,8 +4,10 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Calculate n first principal components and apply log-transformation to the matrix if specified; 
-# initialise object of scPred class 
+# Calculate n first pricipal components and apply log-transform to the matrix if specified; create scPred object 
+
+# args: 
+# - training matrix; training labels; number of pr comps; random seed; log-transform 
 
 option_list = list(
     make_option(
@@ -49,7 +51,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for the scPred object in .rds format'
+        help = 'Output path for the scPred object'
    )
 )
 
@@ -62,13 +64,11 @@ labels = read.csv(opt$training_labels, header=TRUE)
 row.names(labels) = labels[,1]
 labels = labels[,-1]
 mat = readRDS(opt$training_matrix)
-
-# run eigenvalue decomposition and create scPred object 
+# create scPred object 
 scp = eigenDecompose(mat, 
                      n = opt$principal_comps, 
                      seed = opt$random_seed, 
                      pseudo = opt$log_transform)
 
-# set metadata field in the scPred object 
 scPred::metadata(scp) = data.frame(labels)
 saveRDS(scp, opt$output_path)

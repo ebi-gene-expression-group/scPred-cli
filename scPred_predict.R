@@ -4,9 +4,6 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Make cell type predicitons using trained model
-# this script can be used both for evaluation of model performance on test data and obtaining predictions 
-# on new data 
 
 option_list = list(
     make_option(
@@ -21,14 +18,14 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the input prediction matrix in .rds format'
+        help = 'Path to the input object for prediction matrix in .mtx format'
   ),
     make_option(
         c("-s", "--test-labels"), 
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the test labels file for evalutation of model performance in text format'
+        help = 'Path to the test labels for evalutation of model performance'
   ),
     make_option(
         c("-r", "--cell-types-column"), 
@@ -50,14 +47,14 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for values predicted by the model in text format'
+        help = 'Output path for values predicted by the model'
   ),
      make_option(
         c("-a", "--plot-path"), 
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for prediction probabilities histograms in .png format'
+        help = 'Output path for prediction probabilities histograms'
   ), 
      make_option(
         c("-b", "--confusion-table"), 
@@ -75,12 +72,11 @@ opt = wsc_parse_args(option_list, mandatory = c("input_object",
 scp = readRDS(opt$input_object)
 pred_data = readRDS(opt$pred_data)
 
-# get predictions 
 scp = scPredict(scp, newData = as.matrix(pred_data), threshold = opt$threshold_level)
 predictions = getPredictions(scp)
-write.csv(predictions, file=opt$output_path, row.names = TRUE, col.names = TRUE)
+write.table(predictions, file=opt$output_path)
 
-# if test labels supplied, run model performance evaluation block 
+# if test labels supplied, run the performance evaluation block 
 if(!is.na(opt$test_labels)){
     test_labels = read.csv(opt$test_labels, header = TRUE)
     row.names(test_labels) = test_labels[,1]
