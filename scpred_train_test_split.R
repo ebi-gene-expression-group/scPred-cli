@@ -24,7 +24,7 @@ option_list = list(
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Output path for training matrix'
+    help = 'Output path for training matrix in .rds format'
   ),
 
     make_option(
@@ -32,7 +32,7 @@ option_list = list(
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Output path for test matrix'
+    help = 'Output path for test matrix in .rds format'
   ),
 
     make_option(
@@ -48,14 +48,14 @@ option_list = list(
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Output path for training labels'
+    help = 'Output path for training labels in text format'
   ),
     make_option(
     c("-p", "--test-labels"),
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Output path for test labels'
+    help = 'Output path for test labels in text format'
   ),
     make_option(
     c("-s", "--random-seed"),

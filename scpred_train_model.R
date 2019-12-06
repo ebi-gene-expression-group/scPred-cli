@@ -12,7 +12,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the input object of scPred of seurat class in .rds format'
+        help = 'Path to the input object of scPred or seurat class in .rds format'
   ),
     make_option(
         c("-m", "--model"), 

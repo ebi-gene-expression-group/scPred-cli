@@ -4,7 +4,7 @@ suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
 
-# Calculate n first pricipal components and apply log-transformation to the matrix if specified; 
+# Calculate n first principal components and apply log-transformation to the matrix if specified; 
 # initialise object of scPred class 
 
 option_list = list(
@@ -49,7 +49,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for the scPred object'
+        help = 'Output path for the scPred object in .rds format'
    )
 )
 

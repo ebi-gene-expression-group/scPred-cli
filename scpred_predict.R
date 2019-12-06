@@ -28,7 +28,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the test labels for evalutation of model performance'
+        help = 'Path to the test labels file for evalutation of model performance in text format'
   ),
     make_option(
         c("-r", "--cell-types-column"), 
@@ -50,14 +50,14 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for values predicted by the model'
+        help = 'Output path for values predicted by the model in text format'
   ),
      make_option(
         c("-a", "--plot-path"), 
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Output path for prediction probabilities histograms'
+        help = 'Output path for prediction probabilities histograms in .png format'
   ), 
      make_option(
         c("-b", "--confusion-table"), 

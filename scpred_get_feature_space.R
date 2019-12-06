@@ -32,14 +32,14 @@ option_list = list(
         action = "store",
         default = 'fdr',
         type = 'character',
-        help = 'Threshold to filter principal components based on variance explained'
+        help = 'Multiple testing correction method. Default: fdr'
   ),
      make_option(
         c("-s", "--significance-threshold"), 
         action = "store",
         default = 0.05,
         type = 'numeric',
-        help = 'Significance threshold for principalcomponents explaining class identity'
+        help = 'Significance threshold for principal components explaining class identity'
   ),
       make_option(
         c("-o", "--output-path"), 
