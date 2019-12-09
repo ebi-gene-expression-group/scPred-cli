@@ -84,6 +84,10 @@ set.seed(opt$random_seed)
 print(opt$input_sce_object)
 # preprocess data from SCE object 
 sce_object = readRDS(opt$input_sce_object)
+# check for 'normcounts' slot
+if(! "normcounts" %in% names(assays(sce_object))){
+    names(assays(sce_object))[names(assays(sce_object)) == 'counts'] = "normcounts"
+}
 sce_counts = as.matrix(normcounts(sce_object))
 sce_counts_cpm = apply(sce_counts, 2, function(x) (x/sum(x))*1000000)
 sce_metadata = as.data.frame(colData(sce_object))
