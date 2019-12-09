@@ -10,6 +10,7 @@ conda install -c bioconda scpred-cli
 ```
 To run post-install tests, enter the following: `scpred_post_install_tests.sh 'test'` 
 
+
 ### Commands 
 A full set of parameters and their description can be obtained by running `<command>.R --help`. 
 
