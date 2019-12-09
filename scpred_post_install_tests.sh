@@ -63,6 +63,7 @@ export confusion_table=$output_dir/'confusion_table.txt'
 
 ### Workflow parameters
 export cell_types_column='cell_type2'
+export normalised_counts_slot='normcounts'
 export training_ratio=0.7
 export log_trainsform='TRUE'
 export n_pr_components=10
