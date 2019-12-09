@@ -22,6 +22,7 @@
     run rm -f $train_matrix $test_matrix $train_metadata $test_metadata\
     && scpred_train_test_split.R\
                         --input-sce-object $test_sce\
+                        --normalised-counts-slot $normalised_counts_slot\
                         --training-matrix $train_matrix\
                         --test-matrix $test_matrix\
                         --cell-types-column $cell_types_column\
