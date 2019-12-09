@@ -19,6 +19,13 @@ option_list = list(
     help = 'Path to the input SCE object in .rds format'
   ),
     make_option(
+    c("-t", "--normalised-counts-slot"),
+    action = "store",
+    default = "normcounts",
+    type = 'character',
+    help = 'Name of the slot with normalised counts matrix in SCE object. Default: normcounts'
+  ),
+    make_option(
     c("-m", "--output-matrix-object"),
     action = "store",
     default = NA,
@@ -37,8 +44,13 @@ option_list = list(
 opt = wsc_parse_args(option_list, mandatory=c("input_sce_object", "output_matrix_object"))
 sce = readRDS(opt$input_sce_object)
 
-# extract matrix and labels 
-matrix = as.matrix(normcounts(sce))
+# extract matrix and labels
+if(opt$normalised_counts_slot %in% names(assays(sce))){
+    matrix = as.matrix(assays(sce)[[opt$normalised_counts_slot]])
+} else{
+    stop("Specified counts slot not found in SCE object")
+}
+
 matrix = apply(matrix, 2, function(x) (x/sum(x))*1000000)
 saveRDS(matrix, file=opt$output_matrix_object)
 if(!is.na(opt$output_labels)){
