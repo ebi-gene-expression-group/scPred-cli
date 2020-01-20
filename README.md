@@ -1,6 +1,6 @@
 # scPred-scripts
 This is a collection of R scripts to allow the execution of the [scPred](https://github.com/powellgenomicslab/scPred) cell-type classification method.
-# TEST!
+
 ## Commands
 
 Currently wrapped scPred functions are described below. Each script has usage instructions available via --help, consult function documentation in scPred for further details.
