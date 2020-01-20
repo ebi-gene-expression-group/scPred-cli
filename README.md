@@ -18,7 +18,7 @@ Input dataset is pre-processed (CPM normalization) and partitioned with a size o
 ```
 scpred_train_test_split.R 
 --input-sce-object < Path to the input SCE object in .rds format > \
---normalised-counts-slot < Name of the slot with normalised counts matrix in SCE object. Default: normcounts> \ 
+--normalised-counts-slot < Name of the slot with normalised counts matrix in SCE object. Default: normcounts > \ 
 --training-matrix < Output path for training matrix in .rds format > \ 
 --test-matrix < Output path for test matrix in .rds format > \ 
 --cell-types-column < Column name for assigned cell types > \
