@@ -117,3 +117,20 @@
     [ -f  "$scPred_trained" ]
 }
 
+
+@test "Get standard output table" {
+    if [ "$use_existing_outputs" = 'true' ] && [ -f "$scpred_output_tbl" ]; then
+        skip "$scpred_output_tbl exists and use_existing_outputs is set to 'true'"
+    fi
+
+    run rm -f $scpred_output_tbl && scpred_get_std_output.R\
+                                        --predictions-file $predictions_output\
+                                        --get-scores\
+                                        --output-table $scpred_output_tbl
+
+    echo "status = ${status}"
+    echo "output = ${output}"
+
+    [ "$status" -eq 0 ]
+    [ -f  "$scpred_output_tbl" ]
+}

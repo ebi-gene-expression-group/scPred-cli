@@ -60,6 +60,7 @@ export train_probs_plot=$output_dir/'train_probs_plot.png'
 export predict_probs_plot=$output_dir/'prediction_probs_plot.png'
 export predictions_output=$output_dir/'predictions_table.txt'
 export confusion_table=$output_dir/'confusion_table.txt'
+export scpred_output_tbl=$output_dir/'scpred_output_tbl.txt'
 
 ### Workflow parameters
 export cell_types_column='cell_type2'
