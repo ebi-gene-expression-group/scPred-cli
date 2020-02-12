@@ -44,6 +44,7 @@ if(!is.na(opt$cell_id_col)){
 
 output = cbind(cell_id=barcodes, pred_label=as.character(data[, "predClass"]))
 if(opt$get_scores){
+    # exclude label column
     scores = data[,-ncol(data)]
     .get_max = function(vec){
         vec = as.numeric(vec)
