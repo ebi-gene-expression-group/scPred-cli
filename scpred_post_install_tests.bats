@@ -85,6 +85,7 @@
                                scpred_train_model.R\
                                     --input-object $scPred_feat_space\
                                     --output-path $scPred_trained\
+                                    --train-idf $train_idf\
                                     --train-probs-plot $train_probs_plot
 
     echo "status = ${status}"
@@ -126,6 +127,7 @@
     run rm -f $scpred_output_tbl && scpred_get_std_output.R\
                                         --predictions-file $predictions_output\
                                         --get-scores\
+                                        --classifier $scPred_trained\
                                         --output-table $scpred_output_tbl
 
     echo "status = ${status}"

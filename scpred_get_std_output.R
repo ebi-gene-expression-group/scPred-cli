@@ -26,6 +26,13 @@ option_list = list(
         help = 'Should score column be added? Default: FALSE'
     ),
     make_option(
+        c("-k", "--classifier"),
+        action = 'store',
+        default = NA,
+        type = 'character',
+        help = 'Path to the classifier object in .tds format (Optional; required to add dataset of origin to output table)'
+    ),
+    make_option(
         c("-o", "--output-table"),
         action = 'store',
         default = NA,
@@ -60,4 +67,13 @@ if(opt$get_scores){
 colnames(output) = col_names
 # get rid of the goddamn dots
 output[, "predicted_label"] = sapply(output[, "predicted_label"], function(x) x = gsub(pattern = '.', replacement = ' ', x, fixed = TRUE))
-write.table(output, file = opt$output_table, sep="\t", row.names=FALSE)
+# add metadata if classifier is specified 
+append = FALSE
+if(!is.na(opt$classifier)){
+    append = TRUE
+    cl = readRDS(opt$classifier)
+    dataset = attributes(cl)$dataset
+    system(paste("echo '# tool scpred' >", opt$output_table))
+    system(paste("echo '# dataset'", dataset, ">>", opt$output_table))
+}
+write.table(output, file = opt$output_table, sep="\t", row.names=FALSE, append=append)
