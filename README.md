@@ -28,7 +28,7 @@ get_test_data.R
 ```
 
 ### Split dataset into train and test 
-Input dataset is pre-processed (CPM normalization) and partitioned with a size of the training subset specified in **training-ratio** (70% by default).
+Input dataset is pre-processed (CPM normalization, *scpred_preprocess_data.R*) and partitioned with a size of the training subset specified in **training-ratio** (70% by default).
 
 ```
 scpred_train_test_split.R\
@@ -72,6 +72,7 @@ Use principal component-projected data and selected features to train a specifie
 ```
 scpred_train_model.R\
     --input-object < Path to the input object of scPred or seurat class in .rds format >\ 
+    --train-idf <Path to the training data IDF file (optional)>\
     --output-path < Path for the output scPred object in .rds format >\
     --train-probs-plot < Path for training probabilities plot in .png format >
 ```
@@ -92,7 +93,8 @@ scpred_predict.R\
 This script allows to get predicted labels in a standardised format, simplifying downstream analyses. 
 ```
 scpred_get_std_output.R\
-    --predictions-file <Path to the predictions file in text format>
-    --get-scores <Boolean: should the prediction scores be included? default: FALSE>
-    --output-table <Path to the final output file in text format>
+    --predictions-file <Path to the predictions file in text format>\
+    --get-scores <Boolean: should the prediction scores be included? default: FALSE>\
+    --classifier <Path to the classifier object in .rds format>\
+    --output-table <Path to the final output file in text format>\
 ```
