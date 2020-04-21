@@ -30,7 +30,7 @@ option_list = list(
         action = 'store',
         default = NA,
         type = 'character',
-        help = 'Path to the classifier object in .tds format (Optional; required to add dataset of origin to output table)'
+        help = 'Path to the classifier object in .rds format (Optional; required to add dataset of origin to output table)'
     ),
     make_option(
         c("-o", "--output-table"),
