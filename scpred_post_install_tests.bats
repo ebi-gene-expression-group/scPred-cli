@@ -85,7 +85,7 @@
                                scpred_train_model.R\
                                     --input-object $scPred_feat_space\
                                     --output-path $scPred_trained\
-                                    --train-idf $train_idf\
+                                    --train-id $train_id\
                                     --train-probs-plot $train_probs_plot
 
     echo "status = ${status}"

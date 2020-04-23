@@ -47,7 +47,7 @@ mkdir -p $output_dir
 # List tool outputs/inputs & parameters 
 ################################################################################
 export test_sce=$test_working_dir/'pollen_cpm.rds'
-export train_idf=$test_working_dir/'E-ENAD-16.idf.txt'
+export train_id='E-ENAD-16'
 export train_matrix=$output_dir/'train_matrix.mtx'
 export test_matrix=$output_dir/'test_matrix.mtx'
 export train_metadata=$output_dir/'train_metadata.txt'
@@ -85,8 +85,6 @@ export classification_threshold=0.9
 
 export use_existing_outputs
 
-# export test IDF file (has no relation to training data)
-wget "ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/atlas/sc_experiments/E-ENAD-16/E-ENAD-16.idf.txt" -P $test_working_dir
 # Derive the tests file name from the script name
 tests_file="${script_name%.*}".bats
 

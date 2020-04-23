@@ -15,11 +15,11 @@ option_list = list(
         help = 'Path to the input object of scPred or seurat class in .rds format'
   ),
     make_option(
-        c("-f", "--train-idf"), 
+        c("-f", "--train-id"), 
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the training data IDF file (optional)'
+        help = 'ID of the training dataset (optional)'
   ),
     make_option(
         c("-m", "--model"), 
@@ -103,11 +103,8 @@ if(!is.na(opt$train_probs_plot)){
 }
 
 # add dataset field to the object 
-if(!is.na(opt$train_idf)){
-    idf = readLines(opt$train_idf)
-    L = idf[grep("ExpressionAtlasAccession", idf)]
-    dataset = unlist(strsplit(L, "\\t"))[2]
-    attributes(scp)$dataset = dataset
+if(!is.na(opt$train_id)){
+    attributes(scp)$dataset = opt$train_id
     } else{
         attributes(scp)$dataset = NA
     }
