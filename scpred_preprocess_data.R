@@ -51,7 +51,6 @@ if(opt$normalised_counts_slot %in% names(assays(sce))){
     stop("Specified counts slot not found in SCE object")
 }
 
-matrix = apply(matrix, 2, function(x) (x/sum(x))*1000000)
 saveRDS(matrix, file=opt$output_matrix_object)
 if(!is.na(opt$output_labels)){
     labels = as.data.frame(colData(sce))
