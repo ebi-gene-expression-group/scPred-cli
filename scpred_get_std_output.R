@@ -42,7 +42,7 @@ option_list = list(
 )
 
 opt = wsc_parse_args(option_list, mandatory = c("predictions_file", "output_table"))
-data = read.csv(opt$predictions_file, row.names = 1)
+data = read.csv(opt$predictions_file, row.names = 1, sep = "\t")
 if(!is.na(opt$cell_id_col)){
     barcodes = as.character(data[, opt$cell_id_col])
     } else{
