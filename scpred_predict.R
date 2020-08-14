@@ -78,7 +78,7 @@ pred_data = readRDS(opt$pred_data)
 # get predictions 
 scp = scPredict(scp, newData = as.matrix(pred_data), threshold = opt$threshold_level)
 predictions = getPredictions(scp)
-write.table(predictions, file=opt$output_path, row.names = TRUE, sep = "\t")
+write.csv(predictions, file=opt$output_path, row.names = TRUE)
 
 # if test labels supplied, run model performance evaluation block 
 if(!is.na(opt$test_labels)){
