@@ -3,56 +3,112 @@
 
 suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
-suppressPackageStartupMessages(require(caret))
-suppressPackageStartupMessages(require(SingleCellExperiment))
+suppressPackageStartupMessages(require(scPred))
+suppressPackageStartupMessages(require(Seurat))
+suppressPackageStartupMessages(require(dplyr))
 
-### Extract matrix data and/or training labels from SCE object
-### assume that the counts have been normalised previously, i.e. the 'normcounts' slot is present     
+### Pre-process the initial Seurat object
+### The following steps are performed:
+###     - Normalise data (if specified)
+###     - Find relevant feature genes
+###     - Scale data (subtract mean expression and divide by the standard deviation)
+###     - Run PCA
+###     - Generate UMAP plot (if specified)
+
 
 # argument parsing 
 option_list = list(
     make_option(
-    c("-i", "--input-sce-object"),
+    c("-i", "--raw-seurat-object"),
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Path to the input SCE object in .rds format'
+    help = 'Path to the input Seurat object in .rds format'
   ),
     make_option(
-    c("-t", "--normalised-counts-slot"),
+    c("-n", "--normalise-data"),
     action = "store",
-    default = "normcounts",
-    type = 'character',
-    help = 'Name of the slot with normalised counts matrix in SCE object. Default: normcounts'
+    default = FALSE,
+    type = 'logical',
+    help = 'Should the expression data be normalised? Default: False'
   ),
     make_option(
-    c("-m", "--output-matrix-object"),
+    c("-m", "--normalisation-method"),
+    action = "store",
+    default = "LogNormalize",
+    type = 'character',
+    help = 'If --normalise-data specified, what normalisation method to use? Default: LogNormalize'
+  ),
+    make_option(
+    c("-s", "--scale-factor"),
+    action = "store",
+    default = 10000,
+    type = 'numeric',
+    help = 'If --normalise-data specified, what scale factor should be applied? 
+            Note: for PCM normalisation, select 1e6'
+  ),
+    make_option(
+    c("-t", "--selection-method"),
+    action = "store",
+    default = "vst",
+    type = 'character',
+    help = 'Selection method to find feature genes'
+  ),
+    make_option(
+    c("-m", "--processed-seurat-object"),
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Path to the output matrix object in .rds format'
+    help = 'Path to the processed Seurat object in .rds format'
   ),
     make_option(
-    c("-l", "--output-labels"),
+    c("-d", "--umap-plot-dim"),
+    action = "store",
+    default = 30,
+    type = 'numeric',
+    help = 'Number of dims for UMAP plot. Default: 30'
+  ),
+    make_option(
+    c("-c", "--cell-type-col"),
+    action = "store",
+    default = "cell_type",
+    type = 'character',
+    help = 'Name of cell type column in object metadata. Default: "cell_type"'
+  ),
+    make_option(
+    c("-p", "--umap-plot-output-path"),
     action = "store",
     default = NA,
     type = 'character',
-    help = 'Path to the metadata file with cell type labels in text format'
+    help = 'Path to the UMAP plot file in .png format'
   )
 )
 
-opt = wsc_parse_args(option_list, mandatory=c("input_sce_object", "output_matrix_object"))
-sce = readRDS(opt$input_sce_object)
+opt = wsc_parse_args(option_list, mandatory=c("raw_seurat_object", "processed_seurat_object"))
+data_seurat = readRDS(opt$raw_seurat_object)
 
-# extract matrix and labels
-if(opt$normalised_counts_slot %in% names(assays(sce))){
-    matrix = as.matrix(assays(sce)[[opt$normalised_counts_slot]])
-} else{
-    stop("Specified counts slot not found in SCE object")
+# normalise data, if specified
+if(opt$normalise_data){
+    data_seurat = NormalizeData(object = data_seurat,
+                                normalization.method = opt$normalisation_method,
+                                scale.factor = opt$scale_factor)
 }
 
-saveRDS(matrix, file=opt$output_matrix_object)
-if(!is.na(opt$output_labels)){
-    labels = as.data.frame(colData(sce))
-    write.csv(labels, file=opt$output_labels)
+
+# find feature genes; scale; run PCA
+data_seurat = data_seurat %>%
+          FindVariableFeatures(selection.method = opt$selection_method) %>%
+          ScaleData() %>%
+          RunPCA()
+
+# generate UMAP plot, if specified
+if(!is.na(opt$umap_plot_output_path)){
+    data_seurat = RunUMAP(object = data_seurat, dims = 1:opt$umap_plot_dim)
+    png(opt$umap_plot_output_path)
+    print(DimPlot(data_seurat, group.by = opt$cell_type_col, label = TRUE, repel = TRUE))
+    dev.off()
 }
+
+
+
+

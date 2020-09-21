@@ -3,6 +3,8 @@
 suppressPackageStartupMessages(require(optparse))
 suppressPackageStartupMessages(require(workflowscriptscommon))
 suppressPackageStartupMessages(require(scPred))
+suppressPackageStartupMessages(require(Seurat))
+suppressPackageStartupMessages(require(doParallel))
 
 # Use principal component-projected data and selected features to train a specified classification model
 
@@ -12,7 +14,7 @@ option_list = list(
         action = "store",
         default = NA,
         type = 'character',
-        help = 'Path to the input object of scPred or seurat class in .rds format'
+        help = 'Path to the input object of Seurat class in .rds format'
   ),
     make_option(
         c("-f", "--train-id"), 
@@ -58,6 +60,13 @@ option_list = list(
         help = 'Should parallel processing be allowed? Default: TRUE'
   ),
     make_option(
+        c("-c", "--num-cores"), 
+        action = "store",
+        default = 1,
+        type = 'numeric',
+        help = 'For parallel processing, how many cores should be used?'
+  ),
+    make_option(
         c("-o", "--output-path"), 
         action = "store",
         default = NA,
@@ -81,32 +90,33 @@ option_list = list(
 )
 
 opt = wsc_parse_args(option_list, mandatory = c("input_object", "output_path"))
-scp = readRDS(opt$input_object)
+data_seurat = readRDS(opt$input_object)
+
+
 # model training step 
-scp = trainModel(scp, 
+clust = makePSOCKcluster(opt$num_cores)
+registerDoParallel(clust)
+data_seurat = trainModel(data_seurat, 
                  seed = opt$random_seed, 
                  model = opt$model,
                  resampleMethod = opt$resample_method, 
                  number = opt$iter_num, 
                  allowParallel = opt$allow_parallel)
-# obtain training results 
-if(!is.na(opt$training_results)){
-    res = getTrainResults(scp)
-    saveRDS(res, opt$training_results)
-}
+stopCluster(clust)
+sce = get_scpred(data_seurat)
 
 # plot class probs
 if(!is.na(opt$train_probs_plot)){
     png(opt$train_probs_plot)
-    print(plotTrainProbs(scp))
+    print(plot_probabilities(scp))
     dev.off()
 }
 
 # add dataset field to the object 
 if(!is.na(opt$train_id)){
-    attributes(scp)$dataset = opt$train_id
+    attributes(sce)$dataset = opt$train_id
     } else{
-        attributes(scp)$dataset = NA
+        attributes(sce)$dataset = NA
     }
 
-saveRDS(scp, opt$output_path)
+saveRDS(sce, opt$output_path)
