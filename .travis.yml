@@ -1,4 +1,7 @@
 before_install:
+  - if test -e $HOME/miniconda/bin; then
+        echo "miniconda already installed.";
+    else
       if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
         wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
       else
@@ -19,6 +22,7 @@ before_install:
       conda config --add channels bioconda;
 
       conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION r-base r-optparse r-cairo r-workflowscriptscommon r-doparallel r-scpred 'r-dplyr<1';
+    fi
 
 install:
     - export PATH="$HOME/miniconda/bin:$PATH";
