@@ -92,6 +92,6 @@ saveRDS(pred_data, opt$output_path)
 # generate prediction plot 
 if(!is.na(opt$plot_path)){
     png(opt$plot_path)
-    print(DimPlot(query, group.by = "scpred_prediction", reduction = "scpred"))
+    print(DimPlot(pred_data, group.by = "scpred_prediction", reduction = "scpred"))
     dev.off()
 }

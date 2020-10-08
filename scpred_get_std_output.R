@@ -35,7 +35,10 @@ option_list = list(
 )
 
 opt = wsc_parse_args(option_list, mandatory = c("predictions_object", "output_table"))
-data = readRDS(predictions_object)
+suppressPackageStartupMessages(require(Seurat))
+suppressPackageStartupMessages(require(scPred))
+
+data = readRDS(opt$predictions_object)
 pred_labels = data$scpred_prediction
 barcodes = names(pred_labels)
 

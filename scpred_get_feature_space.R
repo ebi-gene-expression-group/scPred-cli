@@ -31,7 +31,7 @@ option_list = list(
      make_option(
         c("-s", "--significance-threshold"), 
         action = "store",
-        default = 0.05,
+        default = 1,
         type = 'numeric',
         help = 'Significance threshold for principal components explaining class identity'
   ),
@@ -49,8 +49,8 @@ opt = wsc_parse_args(option_list, mandatory = c("input_object",
                                                 "output_path"))
 data_seurat = readRDS(opt$input_object)
 data_seurat = getFeatureSpace(data_seurat, 
-                      pVar = opt$prediction_column, 
+                      pvar = opt$prediction_column, 
                       correction = opt$correction_method, 
                       sig = opt$significance_threshold)
 
-saveRDS(scp, opt$output_path)
+saveRDS(data_seurat, opt$output_path)

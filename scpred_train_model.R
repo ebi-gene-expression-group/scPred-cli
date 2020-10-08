@@ -74,18 +74,11 @@ option_list = list(
         help = 'Path for the output scPred object in .rds format'
   ), 
     make_option(
-        c("-t", "--training-results"), 
-        action = "store",
-        default = NA,
-        type = 'character',
-        help = 'Path for training step results object in .rds format'
-  ),
-    make_option(
         c("-g", "--get-scpred"), 
         action = "store",
-        default = TRUE,
+        default = FALSE,
         type = 'logical',
-        help = 'Should scpred object be extracted from Seurat object after model training? Default: TRUE'
+        help = 'Should scpred object be extracted from Seurat object after model training? Default: FALSE'
   ),
     make_option(
         c("-d", "--train-probs-plot"), 

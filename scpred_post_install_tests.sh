@@ -60,6 +60,7 @@ export scpred_output_tbl=$output_dir/'scpred_output_tbl.txt'
 export train_id='E-ENAD-16'
 export norm_query_data="TRUE"
 export get_scores="TRUE"
+export num_cores=2
 
 ################################################################################
 # Test individual scripts

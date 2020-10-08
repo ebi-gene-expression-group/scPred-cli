@@ -2,7 +2,7 @@
 
 # download test sce object from the link provided in package docs
 @test "extract test data" {
-    if [ "$use_existing_outputs" = 'true' ] && [ -f "$test_sce" ]; then
+    if [ "$use_existing_outputs" = 'true' ] && [ -f "$ref_seurat" ]; then
         skip "$test_sce exists and use_existing_outputs is set to 'true'"
     fi
 
@@ -11,7 +11,8 @@
     echo "output = ${output}"
 
     [ "$status" -eq 0 ]
-    [ -f  "$test_sce" ]
+    [ -f  "$ref_seurat" ]
+    [ -f "$query_seurat" ]
   
 }
 
@@ -42,6 +43,7 @@
                                     --input-object $scPred_feat_space\
                                     --output-path $scPred_trained\
                                     --train-id $train_id\
+				    --num-cores $num_cores\
                                     --train-probs-plot $train_probs_plot
 
     echo "status = ${status}"
@@ -61,7 +63,7 @@
                             scpred_predict.R\
                                     --input-object $scPred_trained\
                                     --pred-data $query_seurat\
-                                    --normalise_data $norm_query_data\
+                                    --normalise-data $norm_query_data\
                                     --output-path $predictions_output\
                                     --plot-path $predict_probs_plot\
 
