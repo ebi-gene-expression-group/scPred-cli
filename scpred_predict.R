@@ -34,7 +34,7 @@ option_list = list(
     make_option(
         c("-m", "--normalisation-method"),
         action = "store",
-        default = "LogNormalize",
+        default = "RC",
         type = 'character',
         help = 'If --normalise-data specified, what normalisation method to use? Default: LogNormalize
                 NB: normalisation method must be identical to that used for reference data'
@@ -42,10 +42,10 @@ option_list = list(
     make_option(
         c("-s", "--scale-factor"),
         action = "store",
-        default = 10000,
+        default = 1e6,
         type = 'numeric',
         help = 'If --normalise-data specified, what scale factor should be applied? 
-                Note: for PCM normalisation, select 1e6'
+                Note: for CPM normalisation, select 1e6'
   ),
     make_option(
         c("-l", "--threshold-level"), 

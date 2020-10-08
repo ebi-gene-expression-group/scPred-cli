@@ -48,7 +48,7 @@ opt = wsc_parse_args(option_list, mandatory = c("input_object",
                                                 "prediction_column",
                                                 "output_path"))
 data_seurat = readRDS(opt$input_object)
-scp = getFeatureSpace(data_seurat, 
+data_seurat = getFeatureSpace(data_seurat, 
                       pVar = opt$prediction_column, 
                       correction = opt$correction_method, 
                       sig = opt$significance_threshold)
