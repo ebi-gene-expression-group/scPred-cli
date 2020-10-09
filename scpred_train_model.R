@@ -90,7 +90,7 @@ option_list = list(
                 'pca', 'ica' and 'spatialSign'. The default is 'center' and 'scale'."
   ), 
     make_option(
-        c("-d", "--return-data"), 
+        c("-u", "--return-data"), 
         action = "store",
         default = FALSE,
         type = 'logical',

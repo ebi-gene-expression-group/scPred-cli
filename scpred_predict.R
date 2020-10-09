@@ -55,7 +55,7 @@ option_list = list(
         help = 'Classification threshold value'
   ),
     make_option(
-        c("-h", "--max-iter-harmony"), 
+        c("-x", "--max-iter-harmony"), 
         action = "store",
         default = 20,
         type = 'numeric',
