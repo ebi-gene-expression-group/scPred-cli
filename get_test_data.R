@@ -1,11 +1,22 @@
 #!/usr/bin/env Rscript 
 
 ### Extract example data to run the tests
+library(scPred)
+library(Seurat)
+library(tidyr)
 
-download.file("https://scrnaseq-public-datasets.s3.amazonaws.com/scater-objects/pollen.rds", 
-               destfile = "post_install_tests/pollen.rds")
+# extract reference and query datasets
+reference = scPred::pbmc_1
+query = scPred::pbmc_2
 
-if(!file.exists("post_install_tests/pollen.rds")) stop("Test input file does not exist.")
-suppressPackageStartupMessages(require("SingleCellExperiment"))
-pollen = readRDS("post_install_tests/pollen.rds")
-saveRDS(pollen, file = "post_install_tests/pollen_cpm.rds")
+# add processing steps done by Seurat 
+reference <- reference %>%
+  NormalizeData(normalization.method="RC", scale.factor = 1e6) %>%
+  FindVariableFeatures() %>%
+  ScaleData() %>%
+  RunPCA()
+
+# write data 
+saveRDS(reference, file = "post_install_tests/reference_pbmc.rds")
+saveRDS(query, file = "post_install_tests/query_pbmc.rds")
+

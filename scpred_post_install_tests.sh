@@ -46,35 +46,21 @@ mkdir -p $output_dir
 ################################################################################
 # List tool outputs/inputs & parameters 
 ################################################################################
-export test_sce=$test_working_dir/'pollen_cpm.rds'
-export train_id='E-ENAD-16'
-export train_matrix=$output_dir/'train_matrix.mtx'
-export test_matrix=$output_dir/'test_matrix.mtx'
-export train_metadata=$output_dir/'train_metadata.txt'
-export test_metadata=$output_dir/'test_metadata.txt'
-export scPred_object=$output_dir/'scPred_object.rds'
+export ref_seurat=$test_working_dir/'reference_pbmc.rds'
+export query_seurat=$test_working_dir/'query_pbmc.rds'
 export scPred_feat_space=$output_dir/'scPred_feat_space.rds'
-export eigenvalue_plot=$output_dir/'eigenvalue_plot.png'
 export scPred_trained=$output_dir/'scPred_trained.rds'
-export training_results=$output_dir/'training_results.rds'
+
 export train_probs_plot=$output_dir/'train_probs_plot.png'
 export predict_probs_plot=$output_dir/'prediction_probs_plot.png'
-export predictions_output=$output_dir/'predictions_table.txt'
-export confusion_table=$output_dir/'confusion_table.txt'
+export predictions_output=$output_dir/'predicted_data.rds'
 export scpred_output_tbl=$output_dir/'scpred_output_tbl.txt'
 
 ### Workflow parameters
-export cell_types_column='cell_type2'
-export normalised_counts_slot='normcounts'
-export training_ratio=0.7
-export log_trainsform='TRUE'
-export n_pr_components=10
-export explained_var_limit=0.01
-export correction_method='fdr'
-export model='svmRadial'
-export resample_method='cv'
-export iter_num=5
-export classification_threshold=0.9
+export train_id='E-ENAD-16'
+export norm_query_data="TRUE"
+export get_scores="TRUE"
+export num_cores=2
 
 ################################################################################
 # Test individual scripts
