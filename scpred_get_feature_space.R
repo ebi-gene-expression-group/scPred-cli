@@ -35,6 +35,13 @@ option_list = list(
         type = 'numeric',
         help = 'Significance threshold for principal components explaining class identity'
   ),
+     make_option(
+        c("-r", "--reduction-parameter"), 
+        action = "store",
+        default = "pca",
+        type = 'character',
+        help = 'Name of reduction in Seurat objet to be used to determine the feature space. Default: "pca"'
+  ),
       make_option(
         c("-o", "--output-path"), 
         action = "store",
@@ -51,6 +58,7 @@ data_seurat = readRDS(opt$input_object)
 data_seurat = getFeatureSpace(data_seurat, 
                       pvar = opt$prediction_column, 
                       correction = opt$correction_method, 
-                      sig = opt$significance_threshold)
+                      sig = opt$significance_threshold,
+                      reduction = opt$reduction)
 
 saveRDS(data_seurat, opt$output_path)

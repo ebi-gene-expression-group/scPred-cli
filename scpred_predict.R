@@ -54,6 +54,34 @@ option_list = list(
         type = 'numeric',
         help = 'Classification threshold value'
   ),
+    make_option(
+        c("-h", "--max-iter-harmony"), 
+        action = "store",
+        default = 20,
+        type = 'numeric',
+        help = 'Maximum number of rounds to run Harmony. One round of Harmony involves one clustering and one correction step'
+  ),
+    make_option(
+        c("-r", "--recompute-alignment"),
+        action = "store",
+        default = TRUE,
+        type = 'logical',
+        help = 'Recompute alignment? Useful if scPredict() has already been run. Default: TRUE'
+  ),
+    make_option(
+        c("-k", "--reference-scaling"),
+        action = "store",
+        default = TRUE,
+        type = 'logical',
+        help = 'Scale new dataset based on means and stdevs from reference dataset before alignment. Default: TRUE'
+  ),
+    make_option(
+        c("-e", "--random-seed"), 
+        action = "store",
+        default = 66,
+        type = 'numeric',
+        help = 'Random number generator seed'
+  ),
      make_option(
         c("-o", "--output-path"), 
         action = "store",
@@ -86,7 +114,13 @@ if(opt$normalise_data){
 }
 
 # get predictions 
-pred_data = scPredict(reference = ref_data, new = pred_data, threshold = opt$threshold_level)
+pred_data = scPredict(reference = ref_data,
+                      new = pred_data,
+                      threshold = opt$threshold_level,
+                      max.iter.harmony = opt$max_iter_harmony,
+                      recompute_alignment = opt$recompute_alignment,
+                      reference_scaling = opt$reference_scaling,
+                      seed = opt$random_seed)
 saveRDS(pred_data, opt$output_path)
 
 # generate prediction plot 

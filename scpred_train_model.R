@@ -67,6 +67,51 @@ option_list = list(
         help = 'For parallel processing, how many cores should be used?'
   ),
     make_option(
+        c("-t", "--tune-length"), 
+        action = "store",
+        default = 3,
+        type = 'numeric',
+        help = 'An integer denoting the amount of granularity in the tuning parameter grid'
+  ),
+    make_option(
+        c("-a", "--metric"), 
+        action = "store",
+        default = "ROC,PR,Accuracy,Kappa",
+        type = 'character',
+        help = "Performance metric to be used to select best model"
+  ), 
+    make_option(
+        c("-e", "--preprocess"), 
+        action = "store",
+        default = "center,scale",
+        type = 'character',
+        help = "A string vector that defines a pre-processing of the predictor data. Enter values as comma-separated string. Current possibilities are 
+                'BoxCox', 'YeoJohnson', 'expoTrans', 'center', 'scale', 'range', 'knnImpute', 'bagImpute', 'medianImpute' 
+                'pca', 'ica' and 'spatialSign'. The default is 'center' and 'scale'."
+  ), 
+    make_option(
+        c("-d", "--return-data"), 
+        action = "store",
+        default = FALSE,
+        type = 'logical',
+        help = 'If TRUE, training data is returned within scPred object. Default: FALSE'
+  ),
+     make_option(
+        c("-v", "--save-predictions"), 
+        action = "store",
+        default = "final",
+        type = 'character',
+        help = "Specifies the set of hold-out predictions for each resample that should be
+                returned. Values can be either 'all', 'final' or 'none'."
+  ), 
+     make_option(
+        c("-y", "--reclassify"), 
+        action = "store",
+        default = NULL,
+        type = 'character',
+        help = "Cell types to reclassify using a different model"
+  ), 
+    make_option(
         c("-o", "--output-path"), 
         action = "store",
         default = NA,
@@ -90,6 +135,16 @@ option_list = list(
 )
 
 opt = wsc_parse_args(option_list, mandatory = c("input_object", "output_path"))
+preprocess = wsc_split_string(opt$preprocess, ",")
+metric = wsc_split_string(opt$metric, ",")
+
+if(!is.null(opt$reclassify)){
+    cells_to_reclassify = wsc_split_string(opt$preprocess, ",")
+} else {
+    cells_to_reclassify = NULL
+}
+
+
 data_seurat = readRDS(opt$input_object)
 
 
@@ -101,7 +156,14 @@ classifier = trainModel(data_seurat,
                  model = opt$model,
                  resampleMethod = opt$resample_method, 
                  number = opt$iter_num, 
-                 allowParallel = opt$allow_parallel)
+                 allowParallel = opt$allow_parallel,
+                 preProcess = preprocess,
+                 tuneLength = opt$tune_length,
+                 metric = metric,
+                 returnData = opt$return_data,
+                 savePredictions = opt$save_predictions,
+                 reclassify = NULL
+                 )
 stopCluster(clust)
 
 if(opt$get_scpred){
