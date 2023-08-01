@@ -69,13 +69,6 @@ option_list = list(
         help = 'Recompute alignment? Useful if scPredict() has already been run. Default: TRUE'
   ),
     make_option(
-        c("-k", "--reference-scaling"),
-        action = "store",
-        default = TRUE,
-        type = 'logical',
-        help = 'Scale new dataset based on means and stdevs from reference dataset before alignment. Default: TRUE'
-  ),
-    make_option(
         c("-e", "--random-seed"), 
         action = "store",
         default = 66,
@@ -119,7 +112,6 @@ pred_data = scPredict(reference = ref_data,
                       threshold = opt$threshold_level,
                       max.iter.harmony = opt$max_iter_harmony,
                       recompute_alignment = opt$recompute_alignment,
-                      reference_scaling = opt$reference_scaling,
                       seed = opt$random_seed)
 saveRDS(pred_data, opt$output_path)
 

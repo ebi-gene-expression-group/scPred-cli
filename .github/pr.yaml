@@ -1,0 +1,48 @@
+name: GitHub Actions CI
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - develop
+  pull_request:
+    branches:
+      - 'feature/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.11]  # Add any other Python versions you want to test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+            hashFiles('etc/example-environment.yml') }}
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test-environment
+          environment-file: test-env.yaml
+          mamba-version: "*"
+          channels: defaults,conda-forge,bioconda
+          use-only-tar-bz2: true
+
+      - name: Set up PATH
+        run: export PATH=`pwd`:$PATH
+
+      - name: Run tests
+        run: scpred_post_install_tests.sh
