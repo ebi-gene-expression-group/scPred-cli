@@ -41,8 +41,8 @@ jobs:
           channels: defaults,conda-forge,bioconda
           use-only-tar-bz2: true
 
-      - name: Set up PATH
-        run: export PATH=`pwd`:$PATH
-
       - name: Run tests
-        run: scpred_post_install_tests.sh
+        shell: bash -l {0}
+        run: |
+          export PATH=$(pwd):$PATH
+          scpred_post_install_tests.sh
