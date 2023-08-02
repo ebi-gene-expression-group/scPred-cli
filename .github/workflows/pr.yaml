@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.11]  # Add any other Python versions you want to test
+        python-version: [3.10]  # Add any other Python versions you want to test
 
     steps:
       - name: Checkout code
