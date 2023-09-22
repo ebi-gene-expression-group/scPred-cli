@@ -1,0 +1,18 @@
+name: test-env
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+dependencies:
+  - python
+  - r-base
+  - r-optparse
+  - r-cairo
+  - r-workflowscriptscommon
+  - r-doparallel 
+  - r-scpred==1.9.0
+  - r-dplyr<1
+  - bioconductor-loomexperiment 
+  - r-seurat<5
+  - r-spatstat<1.65
+  - bats-core
