@@ -10,7 +10,7 @@ dependencies:
   - r-cairo
   - r-workflowscriptscommon
   - r-doparallel 
-  - r-scpred<2 
+  - r-scpred<1.9.1
   - r-dplyr<1
   - bioconductor-loomexperiment 
   - r-seurat<5
