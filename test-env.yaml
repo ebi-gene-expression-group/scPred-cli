@@ -5,12 +5,12 @@ channels:
   - bioconda
 dependencies:
   - python
-  - r-base<3.7
+  - r-base
   - r-optparse
   - r-cairo
   - r-workflowscriptscommon
   - r-doparallel 
-  - r-scpred<1.9.1
+  - r-scpred==1.9.0
   - r-dplyr<1
   - bioconductor-loomexperiment 
   - r-seurat<5
