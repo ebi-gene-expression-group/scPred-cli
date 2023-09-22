@@ -21,28 +21,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache conda
-        uses: actions/cache@v2
-        env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
+      - uses: mamba-org/setup-micromamba@v1
         with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-            hashFiles('etc/example-environment.yml') }}
-
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: test-environment
+          micromamba-version: '1.3.1-0'
           environment-file: test-env.yaml
-          mamba-version: "*"
-          channels: defaults,conda-forge,bioconda
-          use-only-tar-bz2: true
+          init-shell: >-
+            bash
+          cache-environment: true
+          create-args: |
+            python=${{ matrix.python-version }}
+          post-cleanup: 'all'
 
       - name: Run tests
-        shell: bash -l {0}
+        shell: bash -el {0}
         run: |
-          export PATH=$(pwd):$PATH
+          export PATH=$( pwd ):$PATH
           scpred_post_install_tests.sh
